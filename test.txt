@@ -1,1 +1,4 @@
 What's this???
+
+Simple guide for starting using Github
+http://www.cnblogs.com/hellomagic/p/5237096.html
