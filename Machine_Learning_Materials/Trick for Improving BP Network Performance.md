@@ -1,6 +1,7 @@
 A Few Tricks for Improving BP(back propagation) Network Performance
 ====
-author: Xiang date:2017.1.16
+Author: Xiang
+Date: 2017.1.16
 </br>
 The following story bases on a paper titled "Understanding the difficulty of training deep feedforward neural networks", written by Xavier Glorot and Yoshua Bengio in 2010.
 
