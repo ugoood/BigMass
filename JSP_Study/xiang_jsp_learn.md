@@ -1,5 +1,7 @@
 ﻿Xiang's Java Server Pages Study
 ====
+阿里云（镜像），包括atom。https://npm.taobao.org/
+
 # jsp Environment Established
 
 ## jdk7.0
@@ -105,3 +107,10 @@ web.xml文件的内容是：
 		redirectPort = "8443"
 	/>
 	```
+## MyEclispse2014 for ubuntu14.04 Configuration
+1. 安装jdk环境 Java 1.7
+2. 下载https://www.genuitec.com/products/myeclipse/download/get/?2014-ga-pro-linux
+3. 运行 ./myeclipse-pro-2014-GA-offline-installer-linux.run
+4. 下载破解文件http://pan.baidu.com/s/1jG0twlK，并解压文件。
+    打开文件 run.bat ，将里面的内容复制到终端（javaw -jar cracker.jar）并修改为Java -jar cracker.jar运行
+5. 接下来参照windows破解http://jingyan.baidu.com/album/7082dc1c57eb19e40a89bdcd.html?picindex=8 ，即可完成破解。
