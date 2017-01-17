@@ -1,9 +1,9 @@
 A Few Tricks for Improving BP(back propagation) Network Performance
-====
+===
 Author: Xiang
 Date: 2017.1.16
-In order to show this document correctly, please install this package(markdown-preview-enhanced) in Atom first.
-</br>
+In order to show this document correctly, please install the package(markdown-preview-enhanced) in Atom first.
+---
 The following story bases on a paper titled "Understanding the difficulty of training deep feedforward neural networks", written by Xavier Glorot and Yoshua Bengio in 2010.
 
 The paper said there are several factors would benefit ANN's performance:
