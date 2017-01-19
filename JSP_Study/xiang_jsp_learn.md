@@ -343,6 +343,8 @@ e.g.
 
 ## request/response
 ### request对象
+request.jsp-->request_receiver.jsp(用它处理)-->处理的结果再返回
+![GitHub Mark](https://github.com/ugoood/BigMass/blob/master/JSP_Study/pics/response_procedure.png?raw=true "GitHub Mark")
 客户端的请求信息被封装在request对象中，它是HttpServletRequest类的实例，常用方法如下：
 - String getParameter(String name) 返回name指定参数的参数值
 - String[] getParameterValues(String name) 返回包含参数name的所有值得数组
