@@ -247,8 +247,8 @@ C:\apache-tomcat-8.5.9\work\Catalina\localhost\test\org\apache\jsp
 
 >1. 内置对象简介
 >2. 四种作用域范围
->3. out
->4. request/response
+>3. out 它的作用域是 page
+>4. request  作用域是request /response
 >5. session
 >6. application
 >7. 其他内置对象
@@ -342,6 +342,128 @@ e.g.
 这样，服务器端就获得了用户提交的信息，具体是什么情况？ 看下节。
 
 ## request/response
+### request对象
+客户端的请求信息被封装在request对象中，它是HttpServletRequest类的实例，常用方法如下：
+- String getParameter(String name) 返回name指定参数的参数值
+- String[] getParameterValues(String name) 返回包含参数name的所有值得数组
+- void setAttribute(String, Object) 存储此请求中的属性
+- object getAttribute(String name) 返回某属性值
+- String getContentType() 得到请求体的MIME类型
+- String getProtocol() 返回请求所用的协议类型及版本号
+- String getServerName() 返回接收请求的服务器主机名
+- int getServerPort()
+- String getCharacterEncoding()
+- void setCharacterEncoding()
+- int getContentLength()
+- String getRemoteAddr()
+- String getRealPath(String path) 返回一虚拟路径的真实路径
+- String getContextPath() 返回上下文路径
+
+e.g.
+建立reg.jsp
+```xml
+<body>
+	<h1>用户注册</h1>
+	<hr>
+	<form name="regForm" action="request.jsp" method="post">//request.jsp应该有反应
+		<table>
+			<tr>
+				<td>用户名：</td>
+				<td><input type="text" name="username"></td>
+			</tr>
+			<tr>
+				<td>爱好：</td>
+				<td>
+					<input type="checkbox" name="favorite" value="read">读书
+					<input type="checkbox" name="favorite" value="music">音乐
+					<input type="checkbox" name="favorite" value="movie">电影
+					<input type="checkbox" name="favorite" value="internet">上网
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="提交"/></td>
+			</tr>
+		</table>
+	</form>
+	<br>
+	<br>
+	<a href="request.jsp?username=李四">测试URL传参数</a> //需配置tomcat8的C:\apache-tomcat-8.5.9\conf\server.xml第70行Connector标签中最后面加入 URIEncoding="utf-8"，重启tomcat服务器后解决中文乱码问题。不过似乎在tomcat8上不用这么干，也不会出现乱码。
+</body>
+```
+建立request.jsp
+```xml
+<body>
+    <h1>request内置对象</h1>
+    <%request.setCharacterEncoding("utf-8");//解决中文乱码问题
+    %>
+    用户名：<%=request.getParameter("username") %>
+    爱好：<%
+    		if(request.getParameterValues("favorite")!=null){
+	    		String[] favorites = request.getParameterValues("favorite");//和reg.jsp中表单对应名字一致
+	    		for(int i=0; i<favorites.length; i++){
+	    			out.println(favorites[i]+"&nbsp;&nbsp;");
+	    		}
+	    	}
+    	%>
+  </body>
+```
+把request.jsp又改成了下面的样子，以此体现request的其他方法：
+```xml
+<body>
+    <h1>request内置对象</h1>
+    <%request.setCharacterEncoding("utf-8");//解决中文乱码问题
+      request.setAttribute("password", 1111);
+    %>
+
+    用户名：<%=request.getParameter("username") %>
+    爱好：<%
+    		if(request.getParameterValues("favorite")!=null){
+	    		String[] favorites = request.getParameterValues("favorite");//和reg.jsp中表单对应名字一致
+	    		for(int i=0; i<favorites.length; i++){
+	    			out.println(favorites[i]+"&nbsp;&nbsp;");
+	    		}
+	    	}
+    	%><br>
+   密码：<%=request.getAttribute("password") %><br>
+   请求体的MIME类型：<%=request.getContentType() %><br>
+   请求所用协议类型：<%=request.getProtocol() %><br>
+   服务器主机名：<%=request.getServerName() %><br>
+   getServerPort():<%=request.getServerPort() %><br>
+   getCharacterEncoding(): <%=request.getCharacterEncoding() %><br>
+   请求文件的长度（字节）：<%=request.getContentLength() %><br>
+   请求客户端的ip地址：<%=request.getRemoteAddr() %><br>
+   请求的真实路径：<%=request.getRealPath("request.jsp") %><br>
+   请求的上下文路径：<%=request.getContextPath() %><br>
+  </body>
+```
+### response对象
+response包含了响应客户请求的有关信息，只对当前访问有效，它是HttpServletResponse类的实例。常用方法如下：
+* String getCharacterEncoding() 返回响应用的是哪种字符编码
+* void setContentType(String type)
+* PrintWriter类的 getWriter()方法 返回可以向客户端输出字符的一个对象
+* sendRedirect(String location) 重定向客户端的请求
+
+e.g.
+建立 response.jsp
+```xml
+<%@page import="java.io.PrintWriter"%>
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=utf-8"%>
+<%
+	response.setContentType("text/html; charset=utf-8");//设置响应的MIMI类型
+	out.println("<h1>response内置对象</h1>");
+	out.print("<br>");
+	//out.flush();//加flush()后，out就比outer输出优先了。
+
+	PrintWriter outer = response.getWriter();//获取输出流对象
+	outer.println("大家好，我是response对象生产的输出流outer对象");
+	//显示的结果 看到PrintWriter对象打印的内容在内置对象out之前打印。
+
+	response.sendRedirect("reg.jsp");//请求重定向。当用户访问response.jsp时，会立即跳转到reg.jsp；相当于客户端又发了个新的请求。
+%>
+```
+>请求转发与请求重定向
+	- __请求重定向__： 客户端行为，response.sendRedirect(), 本质上等同于两次请求，前一次请求的对象不保存，URL地址会改变。
+	- __请求转发__： 服务器行为， request.getRequestDispatcher().forward(req, resp); 是一次请求，转发后请求对象会保存，地址栏URL地址不会改变。
 
 ## session
 
