@@ -1,6 +1,9 @@
 ﻿Xiang's Java Server Pages Study
 ====
 阿里云（镜像），包括atom。https://npm.taobao.org/
+http://pan.baidu.com/share/link?shareid=730651746&uk=291977746
+某人的javaweb学习路线
+![](https://github.com/ugoood/BigMass/blob/master/JSP_Study/pics/path_Javaweb.png?raw=true)
 
 # 1. Java Web Introduction
 ## jsp Environment Established
