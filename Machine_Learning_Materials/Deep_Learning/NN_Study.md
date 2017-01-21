@@ -21,7 +21,12 @@ In practice, we usualy use **stochastic gradient descent** method to train a nue
  test: 10,000
 
 ## Simple NN
-![SGD_weight_upgrate]("SGD_weight_upgrate")
+A simple NN.
+> input layers: one bias node = 1, two input nodes;
+  mid layers: one bias node = 1, three hidden nodes;
+  output layer: one node
+
+![Simple NN](https://github.com/ugoood/BigMass/blob/master/Machine_Learning_Materials/Deep_Learning/images/Simple_NN.png?raw=true "input layers: one bias node = 1, two input nodes; mid layers: one bias node = 1, three hidden nodes; output layer: one node")
 
 ## NN Code and Explanation
 define a basic structure:
@@ -83,7 +88,7 @@ test_data: test_data
 
 Here should insert a image! (SGD_weight_upgrate.png)
 
-![SGD_weight_upgrate]("SGD_weight_upgrate")
+![SGD_weight_upgrate](https://github.com/ugoood/BigMass/blob/master/Machine_Learning_Materials/Deep_Learning/images/SGD_weight_upgrate.png?raw=true "SGD_weight_upgrate")
 
 ```python
 def update_mini_batch(self, mini_batch, eta):
