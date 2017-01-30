@@ -3,6 +3,15 @@ Xiang's Study of Theory and Practice in NN
 Author: Zhong-Liang Xiang
 Establishing Date: January 20th, 2017
 <br>
+# Download Github Materials We Want
+* linux command: git clone https://github.com/mnielsen/neural-networks-and-deep-learning
+* Use Git in Eclipse
+  - install **PyDev**
+  - help--> eclipse marketplace--> search **Egit**--> install
+  - window--> Open Perspective--> Other--> Git
+  - press **Clong a Git Repository and....**--> input URI--> next until finish
+  - use mouse point to the icon of the project you git from github, right click and choose import option of this project.
+
 
 # MNIST
 MNIST(Modified National Institute of Standards and Thechnology) DATABASE (http://yann.lecun.com/exdb/mnist/)
