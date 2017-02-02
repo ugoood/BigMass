@@ -111,7 +111,7 @@ def update_mini_batch(self, mini_batch, eta):
         nabla_b = [np.zeros(b.shape) for b in self.biases]  # initialize with zero for b
         nabla_w = [np.zeros(w.shape) for w in self.weights]
         for x, y in mini_batch:  # for each training instance (x, y)
-            delta_nabla_b, delta_nabla_w = self.backprop(x, y)  # respectively, calculate partial derivative of b, w given a Cost function.
+            delta_nabla_b, delta_nabla_w = self.backprop(x, y)  # respectively, calculate partial derivative of b, w given a cost function.
 
             """
                 NOTICE: nb, dnb, nw and dnw here, all of them are the "scalar quantity"
