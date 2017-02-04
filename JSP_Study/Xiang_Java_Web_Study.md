@@ -422,7 +422,150 @@ enum Grade1 {
 ```
 >day01-11
 
+测试枚举的常用方法：
+```java
+ 	@Test
+	// 测试枚举的常用方法
+	public void test0() {
 
+		// 1. name() ordinal()
+		System.out.println(Grade1.C.name()); // 打印C 枚举值
+		System.out.println(Grade1.C.ordinal()); // 打印2 枚举值序号
+
+		// 2. valueOf()
+		// 下面表现的是： 在什么情况下，要把 “字符串” 转为 “枚举”
+		// 查看用户提供的字符串，是否为枚举值
+		String str = "B";
+		// Grade g = Grade.valueOf(Grade.class, str); //与下行同效
+		Grade g = Grade.valueOf(str); // 接收字符串str, 可查看该串是否为枚举值
+		System.out.println(g);
+
+		// 3. values() 获取所有枚举值，且返回一个数组
+		Grade gd[] = Grade.values();
+		for (Grade g1 : gd) { // 遍历gd[]
+			System.out.println(g1);
+		}
+	}
+```
+>练习：编写一个关于星期几的枚举 WeekDay, 要求：
+	* 枚举值： MON TUE WED THU FRI SAT SUN
+	* 该枚举要有一个方法，调用该方法返回中文格式的星期
+
+```java
+package cn.xiang.enumeration;
+
+import org.junit.Test;
+
+public class Excersize01 {
+	@Test
+	public void weekDayTest(){
+		for(WeekDay wd : WeekDay.values()){
+			System.out.println(wd+"..."+wd.cn_show());
+		}
+	}
+}
+
+enum WeekDay{
+	MON{
+		public String cn_show(){
+			return "星期一";
+		}
+	},
+	TUE{
+		public String cn_show(){
+			return "星期二";
+		}
+	},
+	WED{
+		public String cn_show(){
+			return "星期三";
+		}
+	},
+	THU{
+		public String cn_show(){
+			return "星期四";
+		}
+	},
+	FRI{
+		public String cn_show(){
+			return "星期五";
+		}
+	},
+	FAT{
+		public String cn_show(){
+			return "星期六";
+		}
+	},
+	SUN{
+		public String cn_show(){
+			return "星期天";
+		}
+	};
+
+	public abstract String cn_show();
+}
+```
+**反射**：就是<font color=blue>加载类</font>，并<font color=blue>解剖出类的各个组成部分</font>
+加载类，获得类的字节码，三种方式:
+```java
+//已经建好了Person类
+public class Demo1 {
+	/**
+	 * 反射： 加载类，获得类的字节码，三种方式
+	 * @throws ClassNotFoundException
+	 * */
+	public static void main(String[] args) throws ClassNotFoundException {
+		//1. //这方法怎么不行？
+		Class clazz = Class.forName("/day01/src/cn/xiang/reflection/Person");
+		//2.
+		Class clazz1 = new Person().getClass();
+		//3.
+		Class clazz2 = Person.class;
+	}
+}
+```
+> day01-13
+
+向Person类添加了内容，然后用反射抽取构造器再创建对象
+```java
+public class Person {
+
+	public String name = "aaaa";
+
+	public Person(){
+		System.out.println("person");
+	}
+
+	public Person(String name){
+		System.out.println("Person name");
+	}
+
+	public Person(String name, int password){
+		System.out.println("Person name & password");
+	}
+
+	private Person(List list){
+		System.out.println("list");
+	}
+}
+```
+```java
+//解剖（反射）类的构造函数，创建类的对象
+public class Demo2 {
+	@Test
+	// 反射构造函数： public Person()
+	public void test1() {//需抛 各种 异常
+
+		//Class clazz = Class.forName("/day01/src/cn/xiang/reflection/Person"); // 获取类, doesn't work
+		//Class clazz = Class.forName("day01.src.cn.xiang.reflection.Person"); // 获取类, doesn't work
+		Class clazz = new Person().getClass();
+		Constructor c = clazz.getConstructor(null); // 得到Person类的空参Constructor
+		Person p = (Person) c.newInstance(null); // 用该构造器创建一个对象
+
+		System.out.println(p.name);
+	}
+}
+```
 
 * 泛型
 * 元数据
