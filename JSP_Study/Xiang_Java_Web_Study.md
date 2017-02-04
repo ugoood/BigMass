@@ -566,6 +566,55 @@ public class Demo2 {
 	}
 }
 ```
+反射构造函数： public Person(String name)
+```java
+@Test
+	// 反射构造函数： public Person(String name)
+	public void test2() throws Exception {
+		Class clazz = new Person().getClass();
+		// 注意，String.class 这是获得了参数为String类型的构造器
+		Constructor c = clazz.getConstructor(String.class);
+		Person p = (Person) c.newInstance("xiaoqiang");
+		System.out.println(p.name);
+	}
+```
+
+其他各种反射构造函数，e.g.
+
+```java
+// 创建对象的另外一种途径 等效于反射构造函数： public Person()
+	@Test
+	public void test5() throws Exception {
+		Class clazz = Class.forName("cn.xiang.reflection.Person");
+		// 调用空参构造函数
+		Person p = (Person) clazz.newInstance();
+		System.out.println(p.name);
+	}
+
+	@Test
+	// private Person(List list)
+	// 问：private 的东西别的类能访问吗？
+	// 答：不能，但是 反射 可访问，既， 用 setAccessible()暴力反射 技术
+	// 现实生活的类比： 不能杀人， 但满大街可以买菜刀。 留了后门。
+	public void test4() throws Exception {
+		Class clazz = Class.forName("cn.xiang.reflection.Person");
+		Constructor c = clazz.getDeclaredConstructor(List.class);
+		c.setAccessible(true); // 暴力反射
+		Person p = (Person) c.newInstance(new ArrayList());
+		System.out.println(p.name);
+	}
+
+	@Test
+	// public Person(String name, int password)
+	public void test3() throws Exception {
+		Class clazz = Class.forName("cn.xiang.reflection.Person");
+		Constructor c = clazz.getConstructor(String.class, int.class);
+		Person p = (Person) c.newInstance("wangcai", 5);
+		System.out.println(p.name + "..." + p.age);
+	}
+```
+
+
 
 * 泛型
 * 元数据
