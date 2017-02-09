@@ -613,7 +613,7 @@ public class Demo2 {
 		System.out.println(p.name + "..." + p.age);
 	}
 ```
-
+>day-01-14 13:00
 
 
 * 泛型

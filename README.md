@@ -5,6 +5,9 @@ Usful materials for xiang:
 关于在Ubuntu下安装配置numpy,scipy,matplotlibm,pandas 以及sklearn
 http://blog.csdn.net/Yakumoyukarilan/article/details/51340358
 
+1. Ubuntu14.04安装Theano详细教程
+http://blog.csdn.net/xuezhisdc/article/details/47065475
+
 2. 用Python开始机器学习（1：配置windows平台）xiang have to learn
 http://blog.csdn.net/lsldd/article/details/41084043
 

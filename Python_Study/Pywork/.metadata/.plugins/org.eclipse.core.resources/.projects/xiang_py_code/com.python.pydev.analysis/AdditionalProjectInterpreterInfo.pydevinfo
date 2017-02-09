@@ -1,0 +1,34 @@
+-- VERSION_4
+-- START DISKCACHE_2
+/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/.metadata/.plugins/org.eclipse.core.resources/.projects/xiang_py_code/com.python.pydev.analysis/v2_indexcache
+NumericTypes|1486627476000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/NumericTypes.py
+three_one_list|1486634127000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/three_one_list.py
+TestingBuiltInPack|1486627476000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/TestingBuiltInPack.py
+-- END DISKCACHE
+-- START DICTIONARY
+3
+1=NumericTypes
+2=three_one_list
+3=TestingBuiltInPack
+-- END DICTIONARY
+-- START TREE 1
+15
+a|2|a!11@a!19@
+abc|2|abcd_list!19@abcd_tuple!19@
+age|1|age!11@
+b|1|b!11@
+c|1|c!11@
+d|1|d!11@
+e|1|e!11@
+f|1|f!11@
+mix|2|mixed_tuple!19@mixed_list!19@
+nam|1|name!11@
+num|1|num_list!19@
+r|1|r!27@
+str|1|string_list!19@
+v|1|v!19@
+vv|1|vv!19@
+-- END TREE
+-- START TREE 2
+0
+-- END TREE

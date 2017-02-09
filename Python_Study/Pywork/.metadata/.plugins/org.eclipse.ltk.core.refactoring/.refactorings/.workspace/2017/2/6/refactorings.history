@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;py_data_visualization&apos;" deleteContents="true" description="Delete resource &apos;py_data_visualization&apos;" element1="/py_data_visualization" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1486627405445"/>
+</session>
