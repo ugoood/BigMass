@@ -1,9 +1,0 @@
-'''
-Created on 2017年2月9日
-
-@author: xiang
-'''
-# list
-
-num_list = [1,2,45,7,4]
-print("nember_list: " + num_list)

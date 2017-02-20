@@ -1,0 +1,13 @@
+package cn.it.gui;
+
+import java.awt.Frame;
+
+public class FrameDemo {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Frame f = new Frame();
+		System.out.println("over");
+	}
+
+}

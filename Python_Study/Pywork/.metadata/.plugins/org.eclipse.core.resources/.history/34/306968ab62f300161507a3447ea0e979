@@ -1,0 +1,16 @@
+package cn.it.gui;
+
+import java.awt.Frame;
+
+import org.junit.Test;
+
+public class FrameDemo {
+
+	@Test
+	public void test1() {
+		Frame f = new Frame(); //不可见的Frame对象
+		f.show();
+		System.out.println("over");
+	}
+
+}

@@ -1,0 +1,45 @@
+package cn.it.gui;
+
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.TextField;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+public class MouseAndKeyboardDemo {
+	
+	private Frame f;
+	private TextField tf;
+
+	//alt shift s
+	public MouseAndKeyboardDemo() {
+		init();
+	}
+
+	private void init() {
+		f = new Frame("演示鼠标和键盘监听");
+		f.setBounds(400, 200, 500, 400);
+		f.setLayout(new FlowLayout());
+		
+		tf = new TextField(15);
+		f.add(tf);
+		
+		myEvent();
+		
+		
+		f.setVisible(true);
+	}
+
+	private void myEvent() {
+		f.addWindowListener(new WindowAdapter() {
+		
+			
+		});
+	}
+
+	public static void main(String[] args) {
+		
+
+	}
+
+}

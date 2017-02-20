@@ -1,0 +1,25 @@
+package cn.wk.gui;
+
+import java.awt.Button;
+import java.awt.Frame;
+import java.awt.TextField;
+
+public class MouseListenerDemo {
+	
+	private Frame f;
+	private TextField tf;
+	private Button but;
+	
+	public 
+	
+	
+	
+	
+	
+
+	public static void main(String[] args) {
+		
+
+	}
+
+}

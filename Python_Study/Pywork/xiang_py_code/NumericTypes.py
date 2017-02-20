@@ -33,8 +33,3 @@ name = "Tom"
 print("{0} was {1} years old.".format(name, age))
 print(name + " was " + str(age) + " years old.")#注意str(),cast类型转换
 print("What's your name?\nTom")
-
-
-
-
-

@@ -1,0 +1,28 @@
+package cn.wk.gui;
+
+import java.awt.Button;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+
+public class FrameDemo {
+
+	public static void main(String[] args) {
+		Frame f = new Frame("我的窗体");
+		f.setBounds(400, 150, 400, 300);
+		f.setLayout(new FlowLayout());
+		
+		
+		
+		Button but = new Button("退出");
+		Button but1 = new Button("退出1");
+		f.add(but);
+		f.add(but1);
+		
+		
+		
+		f.setVisible(true);
+		System.out.println("over");
+
+	}
+
+}

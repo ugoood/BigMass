@@ -1,34 +1,90 @@
 -- VERSION_4
 -- START DISKCACHE_2
 /media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/.metadata/.plugins/org.eclipse.core.resources/.projects/xiang_py_code/com.python.pydev.analysis/v2_indexcache
-NumericTypes|1486627476000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/NumericTypes.py
-three_one_list|1486634127000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/three_one_list.py
+six_one_ErrorsExceptions|1486712429000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/six_one_ErrorsExceptions.py
+three_three_Dictionary|1486647434000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/three_three_Dictionary.py
+four_one_if_for|1486652596000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/four_one_if_for.py
+four_two_while_range|1486654515000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/four_two_while_range.py
+NumericTypes|1486785325000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/NumericTypes.py
+five_two_file_IO_|1486699498000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/five_two_file_IO_.py
+eight_one_GuiTkinter|1486804007000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/eight_one_GuiTkinter.py
 TestingBuiltInPack|1486627476000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/TestingBuiltInPack.py
+three_four_function2|1486650723000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/three_four_function2.py
+three_four_function1|1486649162000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/three_four_function1.py
+seven_one_Object_Oriented&decorator|1486714662000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/seven_one_Object_Oriented&decorator.py
+three_one_list|1486634127000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/three_one_list.py
+demo1|1486893523000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/demo1.py
+five_one_IO_input|1486697847000000000|/media/xiang/娱乐/GitHub/BigMass/Python_Study/Pywork/xiang_py_code/five_one_IO_input.py
 -- END DISKCACHE
 -- START DICTIONARY
-3
+15
+7=six_one_ErrorsExceptions
+11=three_three_Dictionary
+3=four_one_if_for
+4=four_two_while_range
 1=NumericTypes
+6=five_two_file_IO_
+14=Student
+12=TestingBuiltInPack
+9=three_four_function2
+8=three_four_function1
+10=seven_one_Object_Oriented&decorator
 2=three_one_list
-3=TestingBuiltInPack
+5=demo1
+13=five_one_IO_input
+15=Student.__init__
 -- END DICTIONARY
 -- START TREE 1
-15
+43
 a|2|a!11@a!19@
+a_d|1|a_dict!27@
+a_l|2|a_list!35@a_list!27@
+a_t|1|a_tuple!27@
 abc|2|abcd_list!19@abcd_tuple!19@
+add|1|add_end!42@
 age|1|age!11@
 b|1|b!11@
 c|1|c!11@
+cal|1|calc!42@
+cou|1|count!35@
 d|1|d!11@
 e|1|e!11@
-f|1|f!11@
-mix|2|mixed_tuple!19@mixed_list!19@
+ext|1|extra_info!43@
+f|3|f!51@f!59@f!11@
+fac|1|fact!42@
+foo|1|foo!66@
+fun|1|func!74@
+gue|1|guess_flag!35@
+i|1|i!59@
+jim|1|jim!83@
+lin|1|line!51@
+lsi|1|lsit_dict!91@
+mix|3|mixed_tuple!19@mixed_list!19@mixed_dict!91@
 nam|1|name!11@
-num|1|num_list!19@
-r|1|r!27@
-str|1|string_list!19@
+num|3|num_list!19@number!27@nums!43@
+per|1|person!42@
+pho|1|phone_book!91@
+pow|1|power!42@
+pri|2|print_sum_two!66@print_paras!74@
+r|1|r!99@
+ran|1|ran!27@
+rep|3|rep_test!91@repeat_str!74@repeat_str!66@
+res|2|result!43@result!67@
+s|1|s!59@
+say|1|say_hi!66@
+som|1|some_sentences!51@
+str|4|string_list!19@str_1!107@str_2!107@stri!67@
+stu|1|Student!81@
+tom|1|tom!83@
 v|1|v!19@
 vv|1|vv!19@
+x|1|x!67@
 -- END TREE
 -- START TREE 2
-0
+5
+__i|1|__init__!14&82@
+gra|1|grade!15&83@
+imp|1|improve!14&82@
+int|1|introduce!14&82@
+nam|1|name!15&83@
 -- END TREE

@@ -1,0 +1,10 @@
+package java.JUI.demo;
+
+public class FrameDemo {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
