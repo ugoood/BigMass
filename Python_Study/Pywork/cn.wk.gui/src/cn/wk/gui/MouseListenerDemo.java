@@ -6,6 +6,8 @@ import java.awt.Frame;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -37,26 +39,54 @@ public class MouseListenerDemo {
 			}
 		});
 
-		but.addActionListener(new ActionListener() {
+		// but.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// tf.setText("按钮被动了一哈");
+		// System.out.println("我是acition listener");
+		// }
+		// });
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tf.setText("按钮被动了一哈");
-				System.out.println("我是acition listener");
-			}
-		});
-		
 		// alt shift s
 		but.addMouseListener(new MouseAdapter() {
+			int count = 0;
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				count++;
+				tf.setText("鼠标进入按钮区域了。" + count);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				tf.setText("鼠标   离开了");
+			}
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				 tf.setText("鼠标单击了按钮");
-				 System.out.println("我是 mouse Clicked");
+				if (e.getClickCount() == 2) {
+					count++;
+					tf.setText("被双击..." + count);
+				}
 			}
 		});
-		
-		
+
+		tf.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				System.out.println(e.getKeyChar() + "....." + e.getKeyCode());
+
+				int code = e.getKeyCode();
+				if (!(code >= KeyEvent.VK_0 && code <= KeyEvent.VK_9)) {
+					System.out.println("必须是数字！！");
+					// e.consume();
+				}
+
+			}
+
+		});
 
 		f.setVisible(true);
 	}

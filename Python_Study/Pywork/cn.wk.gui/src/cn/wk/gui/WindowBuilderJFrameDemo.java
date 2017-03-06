@@ -1,0 +1,102 @@
+package cn.wk.gui;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+public class WindowBuilderJFrameDemo extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					WindowBuilderJFrameDemo frame = new WindowBuilderJFrameDemo();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public WindowBuilderJFrameDemo() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		textField = new JTextField();
+		textField.setBounds(56, 49, 289, 27);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnNewButton = new JButton("进入");
+		btnNewButton.setBounds(63, 88, 107, 27);
+		contentPane.add(btnNewButton);
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			int count = 0;
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				count++;
+				textField.setText("鼠标单击..."+ count);
+			}
+			
+		});
+		
+		JButton btnNewButton_1 = new JButton("退出");
+		btnNewButton_1.setBounds(238, 88, 107, 27);
+		contentPane.add(btnNewButton_1);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(12, 0, 117, 23);
+		contentPane.add(menuBar);
+		
+		JMenu mnM = new JMenu("m1");
+		menuBar.add(mnM);
+		
+		JMenuItem mntmXxx = new JMenuItem("xxx1");
+		mnM.add(mntmXxx);
+		
+		JMenuItem mntmXxx_1 = new JMenuItem("xxx2");
+		mnM.add(mntmXxx_1);
+		
+		JMenu mnM_1 = new JMenu("m2");
+		menuBar.add(mnM_1);
+		
+		JMenuItem mntmMmm = new JMenuItem("mmm2");
+		mnM_1.add(mntmMmm);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+				
+			}
+		});
+		
+	}
+}
