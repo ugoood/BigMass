@@ -2889,10 +2889,49 @@ If `nums = [1,2,3]`, a solution is:
 
 就是求指定集合的所有子集．
 三种解法：
-* Recursive (Backtracking) 道理能理解，但代码好难理解，我写不出来；
+* Recursive (Backtracking) 道理能理解，代码不容易写；
 * Iterative　本文用的解法，好直接，**易理解和实现**；
 * Bit Manipulation　还没学，再补充．
 
+方法1, Recursive (Backtracking)
+代码中的注释是我的理解．
+
+```cpp
+// Recursive (Backtracking)
+vector<vector<int>> subsets(vector<int>& A) {
+	sort(A.begin(), A.end()); // sort
+	vector < vector<int> > res;
+	vector<int> sub;
+
+	// 四个参数
+	// A, 二维res, 临时sub, 待处理数组A元素索引号indx
+	genSubset(A, res, sub, 0);
+	return res;
+}
+
+// DFS:
+// box 套 box, 好奇的小儿一直往里面开 box
+void genSubset(vector<int>& A, vector<vector<int> >& res, vector<int> sub,
+		int start) {
+	res.push_back(sub);
+	for (int i = start; i < A.size(); i++) {
+		// 假设 sub = [1]
+		// sub里压入一个2, sub = [1, 2]
+		sub.push_back(A[i]);
+
+		// 看看压入2后, 还有谁？！！
+		genSubset(A, res, sub, i + 1);
+
+		// 还有谁的事,由genSubset探查完后,
+		// 把2弹出去, sub = [1], 然后下轮循环, 看看谁还能和 1 搭个伴,
+		// 假设A中还有3, 那么下次循环 sub = [1, 3]
+		// 直到 1 和所有A中剩余元素都结合过
+		sub.pop_back();
+	}
+}
+```
+
+方法2, Iterative
 想法：
 就是编程实现下面的东西：
 
@@ -3151,6 +3190,512 @@ int lengthOfLastWord(string s) {
 	for (int i = end; i >= begin; i--) {
 		if (s[i] == ' ') return end - i;
 		else if (i == begin) return end - begin + 1;
+	}
+}
+```
+
+## 31. Next Permutation(中等，搞清楚啥是 next permutation)
+Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
+
+If such arrangement is not possible, it must rearrange it as the lowest possible order (ie, sorted in ascending order).
+
+The replacement must be in-place, do not allocate extra memory.
+
+Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.
+
+```
+1,2,3 → 1,3,2
+3,2,1 → 1,2,3
+1,1,5 → 1,5,1
+```
+
+这题我看了半天都没搞懂啥是"下一个排列(next permutation)".找了些资料(http://www.geeksforgeeks.org/find-next-greater-number-set-digits/),才了解啥叫 next permutation.
+这么弄：
+<font color = green>假设 `A = [2 1 8 7 6 5]`, 它的 next permutation 咋求？　这样求：
+1. 从右往左，5 6 7 8 都是增序，突然 1 降下来了， 那就所定 1;
+2. 1 右边有 8 7 6 5, 找比1大的但却是这四个数中较小的那个数, 就是 5 喽;
+3. 交换 1 和 5, 结果是 `A = [2 5 8 7 6 1]`;
+4. 然后 对 `[8 7 6 1]` 增序排序. 最后返回 `A = [2 5 1 6 7 8]`.</font>
+
+打完，收功！
+这么做就能得到某序列的所谓的 next permutation 了？
+是的！
+为啥？
+没为啥，边个程序实现它就完事了！
+
+题目要求中有个特殊情况，就是当 `A = [4 3 2 1]` 时，返回 `A = [1 2 3 4]`. 这就是本题的全部解释了.
+更加详细的考虑及设置，在我的代码注释中写的很清楚.
+
+人家想法，自个代码:
+有个 cpp 副产品: `reverse(A.begin() + start, A.end());`
+这个 start 是 `A = [2 1 8 7 6 5]` 中元素 8 的 index, start = 2.
+$O(n)$ time, $O(1)$ extra space. 严格来说，里面用到了排序，就不是`O(n)` time 了．
+
+```cpp
+// e.g.
+// A = [2 1 8 7 6 5]
+// step 1: from right to left, seek element '1';
+// step 2: from right to left, seek '5' and swap(A[1], A[5])
+//  --- After step 2, A = [2 1 8 7 6 5] --> A = [2 5 8 7 6 1]
+// step 3: reverse(A.begin() + 2, A.end())
+//  --- return A = [2 5 1 6 7 8]
+
+// special case: A = [4 3 2 1] --> will return A = [1 2 3 4]
+
+void nextPermutation(vector<int>& A) {
+	const int n = A.size();
+	if (n == 0 || n == 1)
+		return; //special case
+
+	int start;
+
+	// 4 3 2 1, can not found A[i]<A[i+1]
+	bool found = false;
+
+	// step 1
+	for (int i = n - 2; i >= 0; i--) {
+		if (A[i] < A[i + 1]) {
+			start = i + 1;
+			found = true; // found the case A[i]<A[i+1]
+			break;
+		}
+	}
+
+	// special case
+	// 4 3 2 1 --> return 1 2 3 4 directly
+	if (found == false) {
+		reverse(A.begin(), A.end());
+		return;
+	}
+
+	// step 2
+	for (int j = n - 1; j >= start; j--) {
+		if (A[j] > A[start - 1]) {
+			swap(A[j], A[start - 1]);
+			break;
+		}
+	}
+
+	// step 3
+	reverse(A.begin() + start, A.end());
+
+	return;
+}
+```
+
+## 39. Combination Sum(medium, backtrack 的经典应用, 重要)
+Given a set of candidate numbers (C) (**without duplicates**) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
+
+The same repeated number may be chosen from C unlimited number of times.
+
+Note:
+
+* All numbers (including target) will be positive integers.
+* The solution set must not contain duplicate combinations.
+
+For example, given candidate set [2, 3, 6, 7] and target 7,
+A solution set is:
+
+```
+[
+ [7],
+ [2, 2, 3]
+]
+```
+
+本题是 backtrack(回溯法) 的经典应用.通过本题，仔细观察 backtrack 基本框架，并感受其应用.
+另外, subset 的题目也用 backtrack 方法.
+
+人家想法，自个代码:
+* cpp 副产品： `v.pop_back();` 弹出队尾元素.
+* 要注意的是: **下面代码中 backtrack 方法中的 res, temp, A, 尤其是 temp, 他们都分别指向对应的一个对象，无论 backtrack 方法被嵌套地调用多少次！**
+
+```cpp
+// backtrace method
+vector<vector<int>> combinationSum(vector<int>& A, int ta) {
+	sort(A.begin(), A.end());
+	vector < vector<int> > res;
+	vector<int> temp;
+	backtrack(res, temp, A, ta, 0);
+	return res;
+}
+
+void backtrack(vector<vector<int> >& res, vector<int>& temp, vector<int>& A,
+		int remain, int start) {
+	if (remain < 0)
+		return;
+	else if (remain == 0) {
+		res.push_back(temp);
+		return;
+	} else {
+		for (int i = start; i < A.size(); i++) {
+			temp.push_back(A[i]);
+
+			// not i + 1, because A[i] might be reused.
+			backtrack(res, temp, A, remain - A[i], i);
+
+			temp.pop_back();
+		}
+		return;
+	}
+}
+```
+
+
+## 40. Combination Sum II
+Given a collection of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
+
+Each number in C may only be used once in the combination.
+
+**Note:**
+
+* All numbers (including target) will be positive integers.
+* The solution set must not contain duplicate combinations.
+
+For example, given candidate set `[10, 1, 2, 7, 6, 1, 5]` and target 8,
+A solution set is:
+
+```
+[
+ [1, 7],
+ [1, 2, 5],
+ [2, 6],
+ [1, 1, 6]
+]
+```
+
+这题用到 backtrack 方法, 需去重.
+e.g.
+`A = [1 1 2 5 6 7 10], target = 8`
+正确输出应该是：
+`[[1,1,6],[1,2,5],[1,7],[2,6]]`
+
+<font color = red>
+难点在去重条件：
+* 我写的，错误：　`if(i >= 1 && A[i] == A[i - 1]) continue;`
+	- 错误输出: `[[1,2,5],[1,7],[2,6]]`
+* 人家写的，正确: `if ((i >= 1) && (A[i] == A[i - 1]) && (i > start)) continue;`
+
+差别就是 i > start 条件，挺不容易的想出来的．
+</font>
+
+自己想法，自个代码(被人家修正^^):
+
+```cpp
+// backtrack
+// A = [1 1 2 5 6 7 10]
+vector<vector<int>> combinationSum2(vector<int>& A, int ta) {
+	sort(A.begin(), A.end());
+	vector < vector<int> > res;
+	vector<int> temp;
+	backtrack(A, res, temp, ta, 0);
+	return res;
+}
+
+void backtrack(vector<int>& A, vector<vector<int> >& res, vector<int> temp,
+		int remain, int start) {
+	if (remain < 0)
+		return;
+	else if (remain == 0)
+		res.push_back(temp);
+	else {
+		for (int i = start; i < A.size(); i++) {
+
+			// not correct: if(A[i] == A[i - 1] && i >= 1) continue;
+			// (i > start) is hard think, but important.
+
+			if ((i >= 1) && (A[i] == A[i - 1]) && (i > start))
+				continue; // check duplicate combination
+
+			temp.push_back(A[i]);
+			backtrack(A, res, temp, remain - A[i], i + 1); // i + 1, next element
+			temp.pop_back();
+		}
+	}
+}
+```
+
+## 46. Permutations(medium, backtrack, 重要)
+Given a collection of **distinct** numbers, return all possible permutations.
+
+For example,
+[1,2,3] have the following permutations:
+
+```
+[
+ [1,2,3],
+ [1,3,2],
+ [2,1,3],
+ [2,3,1],
+ [3,1,2],
+ [3,2,1]
+]
+```
+
+做了几个 backtrack 类的题目了, 对这个题还是没思路.
+<font color = red>
+我目前的经验, backtrack 题目，要确定下面三个重要部件:
+1. 把 temp 压入 res 的条件！
+	- 通常这个样 `if (condition) {res.push_back(temp);}`
+2. 怎样生成符合题意的 temp!
+	- 通常这个样 `else{for(int i=var; i<A.size(); i++){temp.push_back(A[i]); backtrack(params); temp.pop_back();}}`
+3. backtrack 函数参数列表.
+</font>
+
+上面三点考虑时似乎没个先后顺序，好难哦．
+
+人家想法，自个代码(被教育后的结果):
+
+```cpp
+vector<vector<int>> permute(vector<int>& A) {
+	vector < vector<int> > res;
+	vector<int> temp;
+	backtrack(A, res, temp);
+	return res;
+}
+
+void backtrack(vector<int>& A, vector<vector<int> >& res, vector<int> temp) {
+	// 重要部件
+	if (temp.size() == A.size()) {
+		res.push_back(temp); // 1. 啥时候 把 temp 压入 res, 很重要！！
+		return;
+	} else {
+		// 2. 如何生成 temp 很重要！！
+		for (int i = 0; i < A.size(); i++) {
+			// contain A[i] is true
+			if (find(temp.begin(), temp.end(), A[i]) != temp.end())
+				continue;
+
+			temp.push_back(A[i]);
+			backtrack(A, res, temp);
+			temp.pop_back();
+		}
+		return;
+	}
+}
+```
+
+
+## 47. Permutations II(medium, backtrack, 重要, 条件较难思考)
+Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+
+For example,
+`[1,1,2]` have the following unique permutations:
+
+```
+[
+  [1,1,2],
+  [1,2,1],
+  [2,1,1]
+]
+```
+
+本题有重复元素，条件较难思考，做这个题费了小劲．
+总体框架是应用 backtrack 解决．
+
+样例：`[1 1 2] -> [1 2 1] -> [2 1 1]`
+设定一个 `vector<bool> used(A.size(), false);` 表示哪些元素用过, 用过的用`true`表示.
+
+`[1 1 2] -> [1 2 1]` dfs到这种状态后, `i` 将要为 `1`, 就是下面的样子.
+
+```
+[1 1 2] 此时所有的 used[0 - 2] 都为 false.
+   i
+```
+
+`if (i > 0 && A[i - 1] == A[i] && !used[i - 1]) continue; // <--这句话，想不出来啊`
+
+**若无上面那个判断条件(有这个标志的那行 '<--'),将会再次产生下面的序列:
+[1 1 2], 这里的第一个1是上面i=1所指的元素，第二个1是i=0的元素.**
+
+**为防止这种事的发生，就应该跳过i=1的那个元素,　仔细观察, 发现：**
+<font color = green>
+1. `i > 0;`
+2. `A[i] = A[i-1];`
+3. `A[i-1] = false;`
+</font>
+
+**满足上述3条的元素， 就应跳过！**
+
+<font color = red>
+经验:
+想写清楚条件，必须把简单例子用笔纸走一遍;
+找出自己跑的结果与正确结果不同之处;
+针对错误点， 设置if()语句,避免之!
+</font>
+
+自己代码:
+
+```cpp
+// e.g.
+// [1 1 2] -> [1 2 1] -> [2 1 1]
+vector<vector<int>> permuteUnique(vector<int>& A) {
+	sort(A.begin(), A.end());
+	vector < vector<int> > res;
+	vector<int> temp;
+
+	// 用 used[0-2], true 表用过
+	vector<bool> used(A.size(), false);
+	backtrack(res, temp, A, used);
+	return res;
+}
+
+void backtrack(vector<vector<int> >& res, vector<int>& temp, vector<int>& A,
+		vector<bool> used) {
+	if (temp.size() == A.size())
+		res.push_back(temp);
+	else {
+		for (int i = 0; i < A.size(); i++) {
+			if (used[i] == true) {
+				continue;
+			}
+			if (i > 0 && A[i - 1] == A[i] && !used[i - 1])
+				continue; // <--这句话，想不出来啊
+			// [1 1 2] -> [1 2 1]  dfs到这种状态后, i 将要为 1, 就是下面的样子.
+
+			// [1 1 2]    此时所有的 used[0 - 2] 都为 false.
+			//    i
+			// 若无上面那个判断条件(有这个标志的那行 '<--'),将会再次产生下面的序列:
+			// [1 1 2], 这里的第一个1是上面i=1所指的元素，第二个1是i=0的元素
+			// 为防止这种事的发生，就应该跳过i=1的那个元素,　仔细观察, 发现：
+			// 1. i > 0;
+			// 2. A[i] = A[i-1];
+			// 3. A[i-1] = false;
+			// 满足上述3条的元素，就应跳过！
+			//
+			// 经验:
+			// 想写清楚条件，必须把简单例子用笔纸走一遍;
+			// 找出自己跑的结果与正确结果不同之处;
+			// 针对错误点，设置if()语句,避免之!
+
+			temp.push_back(A[i]);
+			used[i] = true;
+			backtrack(res, temp, A, used);
+			used[i] = false;
+			temp.pop_back();
+		}
+	}
+}
+```
+
+## 77. Combinations(medium, backtrack, 重要, 弄了１小时)
+Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
+
+For example,
+If n = 4 and k = 2, a solution is:
+
+```
+[
+ [2,4],
+ [3,4],
+ [2,3],
+ [1,2],
+ [1,3],
+ [1,4],
+]
+```
+
+做了好几个这种题了，就是 backtrack problem, １小时做出，但不容易，各种小毛病.
+我的程序蠢蠢的建立了一个 `vector<int> A;`. 其实，只玩弄变量n就行了．
+
+**我犯的错误，如下：**
+`start + 1, start++ 和 ++start`
+
+```
+自己第一次写的代码是
+for (int i = start; i < A.size(); i++) {
+	temp.push_back(A[i]);
+
+	// 应把 start+1 改为 ++start, start 应该随 i 变化而变化
+	backtrack(res, temp, A, len, start + 1);
+	temp.pop_back();
+}
+
+e.g.
+n = 4, k = 2
+[1 2 3 4]
+结果应为:        [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+我错误结果为:    [[1,2],[1,3],[1,4],[2,2],[2,3],[2,4],[3,2],[3,3],[3,4],[4,2],[4,3],[4,4]]
+```
+
+自个想法，自个代码：
+
+```cpp
+vector<vector<int>> combine(int n, int k) {
+	vector < vector<int> > res;
+	vector<int> temp;
+	vector<int> A;
+	for (int i = 1; i <= n; i++)
+		A.push_back(i);
+
+	backtrack(res, temp, A, k, 0);
+	return res;
+}
+
+void backtrack(vector<vector<int> >& res, vector<int>& temp, vector<int>& A,
+		const int len, int start) {
+	if (temp.size() == len) {
+		res.push_back(temp);
+		return;
+	}
+
+	for (int i = start; i < A.size(); i++) {
+		temp.push_back(A[i]);
+		// start++;
+		// 下面血淋淋地体现了
+		// start + 1, start++ 和 ++start 的巨大不同了
+		backtrack(res, temp, A, len, ++start);
+		temp.pop_back();
+	}
+}
+```
+
+## 216. Combination Sum III(medium, backtrack, 本类问题做的最快的一次)
+Find all possible combinations of k numbers that add up to a number n, given that only numbers from 1 to 9 can be used and each combination should be a unique set of numbers.
+
+Example 1:
+
+Input: k = 3, n = 7
+
+Output:
+
+`[[1,2,4]]`
+
+
+Example 2:
+
+Input: k = 3, n = 9
+
+Output:
+
+`[[1,2,6], [1,3,5], [2,3,4]]`
+
+关于 backtrack problem 做的最快的一次.
+定义了２个东西:
+* start
+* remain
+
+自己想法，自己代码:
+
+```cpp
+vector<vector<int>> combinationSum3(int k, int n) {
+	vector<int> A = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	vector<vector<int> > res;
+	vector<int> temp;
+	backtrack(res, temp, A, k, 0, n);
+	return res;
+}
+
+void backtrack(vector<vector<int> >& res, vector<int>& temp, vector<int>& A,
+		int k, int start, int remain) {
+	if (temp.size() == k && remain == 0) {
+		res.push_back(temp);
+		return;
+	}
+	for (int i = start; i < A.size(); i++) {
+		temp.push_back(A[i]);
+		backtrack(res, temp, A, k, ++start, remain - A[i]);
+		temp.pop_back();
 	}
 }
 ```

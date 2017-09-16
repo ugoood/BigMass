@@ -195,3 +195,20 @@ for(int i = 0; i < m; i++){
 	A[i].resize(n); // 4 cols
 }
 ```
+
+### 3.3 v.back() 和　v.push_back()
+v.back() 是 vector 最后一个元素的指针;
+v.push_back(element) 从队尾压入一个元素;
+
+### 3.4 v.pop_back()
+v.pop_back() 队尾处弹出一个元素.
+
+### 3.5 find() 判断是否存在某元素
+vector 判断是否存在某元素:
+
+```cpp
+if(find(A.begin(), A.end(), A[i]) != A.end()){
+	// 若存在 A[i]
+	// find() 返回一个指针
+}
+```
