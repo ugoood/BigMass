@@ -3699,3 +3699,51 @@ void backtrack(vector<vector<int> >& res, vector<int>& temp, vector<int>& A,
 	}
 }
 ```
+
+## 152. Maximum Product Subarray(中等, 神奇的 swap)
+Find the contiguous subarray within an array (containing at least one number) which has the largest product.
+
+For example, given the array `[2,3,-2,4]`,
+the contiguous subarray `[2,3]` has the largest product = `6`.
+
+Idea:
+https://leetcode.com/problems/maximum-product-subarray/discuss/
+**keep max(min) value in imax(imin) varable when pointer = i.**
+
+<font color = "blue">
+swap起到重要作用.
+虽然求子数组最大乘积，但最小乘积也需维护，因为：
+A Truth is:
+big -> small when (A[i] < 0)
+small -> big when (A[i] < 0)
+whatever imax, imin is stored negt or posi in.
+</font>
+
+人家想法，自个代码：
+$O(n)$ time, $O(1)$ extra space.
+
+```cpp
+// https://leetcode.com/problems/maximum-product-subarray/discuss/
+// A = [2,3,-2,4]   return [2,3] = 6
+int maxProduct(vector<int>& A) {
+	int r = A[0], imax = r, imin = r;
+	for (int i = 1; i < A.size(); i++) {
+		// A Truth is:
+		// big -> small when (A[i] < 0)
+		// small -> big when (A[i] < 0)
+		// whatever imax, imin is stored negt or posi in.
+		if (A[i] < 0)
+			swap(imax, imin);
+
+		// keep max(min) value in imax(imin) when pointer = i
+		imax = max(A[i], imax * A[i]);
+
+		// 之所以记录 imin,
+		// 是因为 if(A[i] < 0) swap(imax, imin);
+		// 用到 imin
+		imin = min(A[i], imin * A[i]);
+		r = max(r, imax);
+	}
+	return r;
+}
+```
