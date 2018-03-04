@@ -330,6 +330,57 @@ vector<vector<int>> generate(int numRows) {
     return result;
 }
 ```
+
+自己代码：
+```c++
+#include<iostream>
+#include<vector>
+using namespace std;
+
+vector<vector<int> > generate(int num);
+int main()
+{
+    vector<vector<int> > res = generate(40);
+    for (int i = 0; i < res.size(); ++i)
+    {
+        cout<<"[";
+       for (int j = 0; j < res[i].size(); ++j)
+       {
+            if(j < res[i].size()-1)
+                cout << res[i][j] << ", ";
+            else cout << res[i][j];
+       }
+       cout << "]" << endl;
+    }
+    return 0;
+}
+
+vector<vector<int> > generate(int num){
+    vector<vector<int> > res;
+    vector<int> row;
+    for(int i = 1; i <= num; i++){
+        row.push_back(1);
+        int len = row.size();
+        for(int j = 0; j < len; j++){
+            int temp1, temp2;
+            if(j == 1){
+                temp1 = row[1];
+                if(len > 2)
+                    row[j] = row[j - 1] + row[j];
+            }
+            else if(j > 0 && j < len - 1){
+                temp2 = row[j];
+                row[j] = temp1 + row[j];
+                temp1 = temp2;
+            }
+        }
+        res.push_back(row);
+    }
+    return res;
+}
+
+```
+
 ## 119. Pascal's Triangle II
 Given an index $k$, return the $k^{th}$ row of the Pascal's triangle.
 
@@ -390,6 +441,14 @@ int max(int a, int b) {
     return a > b ? a : b;
 }
 ```
+执行过程中, temp, p 和 profit 中值的变化:
+
+```
+temp  -6 4 -2 3 -2
+p      0 4  2 5  3
+profit 0 4  4 5  5
+```
+
 更牛逼的代码:
 //TODO 还没看呢
 ```c++
