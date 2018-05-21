@@ -194,11 +194,11 @@ person('xiaoqiang', 22, **extra_info)
 ```
 ## 命名关键字参数
 ***CAUSION: 我本节不是很清楚，具体参考http://www.liaoxuefeng.com/的python3教程部分***
-> ```person(name, age, *, city, job): ```
-```person(name, age, *args, city, job):```
-```person(name, age, city, job):   #位置参数```
+`person(name, age, *, city, job): `
+`person(name, age, *args, city, job):`
+`person(name, age, city, job):   #位置参数`
 
-与关键字参数```**kw```不同，命名关键字参数需要一个特殊分隔符```*```，```*```后面的参数被视为**命名关键字参数**。
+与关键字参数`**kw`不同，命名关键字参数需要一个特殊分隔符`*`，`*`后面的参数被视为 **命名关键字参数**。
 
 ```python
 def person(name, age, *, city, job):
@@ -312,30 +312,38 @@ j = isinstance(a, Dog)  # False
 print(j)
 ```
 isinstance() 判断基本类型
+
 ```python
 # 判断是否是list或者tuple
 j = isinstance([1, 2, 3], (list, tuple))    
 print(j)
 ```
+
 * dir()
 如果要获得一个对象的所有属性和方法，可以使用`dir()`函数，它返回一个包含字符串的list.
+
 ```python
 dir('abc')
 ```
+
 返回
+
 ```
 ['__add__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__gt__', '__hash__', '__init__', '__iter__', '__le__', '__len__', '__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'capitalize', 'casefold', 'center', 'count', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'format_map', 'index', 'isalnum', 'isalpha', 'isdecimal', 'isdigit', 'isidentifier', 'islower', 'isnumeric', 'isprintable', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'maketrans', 'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
 ```
 
 * `__xxx__`的属性和方法在Python中都是有特殊用途
 如`__len__`
+
 ```python
 >>> len('ABC')
 3
 >>> 'ABC'.__len__()
 3
 ```
+
 自己的类，也想`len(自己类)`的话，就自己写一个`__len__()`方法：
+
 ```python
 >>> class MyDog(object):
 ...     def __len__(self):
@@ -345,6 +353,7 @@ dir('abc')
 >>> len(dog)
 100
 ```
+
 还有一些普通的属性和方法：
 `lower()`、`getattr()`、`setattr()`以及`hasattr()`。
 
@@ -462,16 +471,6 @@ print(Weekday['Tue'])   #返回 Weekday.Tue
 for name, member in Weekday.__members__.items():
   print(name,'=>',member)
 ```
-
-
-
-
-
-
-
-
-
-
 
 # virtualev
 >整理自http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432712108300322c61f256c74803b43bfd65c6f8d0d0000

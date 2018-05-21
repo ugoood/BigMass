@@ -68,6 +68,8 @@ __双下划线__ => 双下划线
 ### 1.3.2 有序列表示例：
 
 1. item1
+  1.1
+  1.2
 1. item2
 1. item3
 
@@ -226,6 +228,7 @@ http://blog.csdn.net/mduanfire/article/details/50278591
 graph LR
 A-->B
 ```
+
 ```{mermaid}
 sequenceDiagram
 　　　participant Alice

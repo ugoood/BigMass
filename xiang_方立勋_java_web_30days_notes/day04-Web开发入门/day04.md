@@ -9,13 +9,28 @@
   * [6. Web应用的组成结构(web.xml，特定文件放入特定目录，否则web应用无法工作)](#6-web应用的组成结构webxml特定文件放入特定目录否则web应用无法工作)
   * [7. 配置虚拟主机](#7-配置虚拟主机)
     * [7.1 配置多个网站](#71-配置多个网站)
+  * [8. web资源访问流程](#8-web资源访问流程)
+  * [9. 打包 web 应用 war](#9-打包-web-应用-war)
+  * [10. 配Context元素的reloadable属性为true，让tomcat自动加载更新后的web应用](#10-配context元素的reloadable属性为true让tomcat自动加载更新后的web应用)
+  * [11. Tomcat 体系结构](#11-tomcat-体系结构)
+  * [12. 软件密码学基础和配置 https 连接器](#12-软件密码学基础和配置-https-连接器)
+    * [12.1 软件密码学基础](#121-软件密码学基础)
+    * [12.2 配置 https 连接器](#122-配置-https-连接器)
+  * [13. Tomcat管理平台](#13-tomcat管理平台)
+  * [14. HTTP协议](#14-http协议)
+  * [15. HTTP请求](#15-http请求)
+    * [15.1 HTTP 的 get 和 post 请求](#151-http-的-get-和-post-请求)
+    * [15.2 HTTP 的 请求头的解释](#152-http-的-请求头的解释)
+  * [16. HTTP响应](#16-http响应)
+    * [16.1 响应头的解释](#161-响应头的解释)
+    * [16.2 响应头 - Range头，断点续传](#162-响应头-range头断点续传)
 
 <!-- tocstop -->
 
 Author：相忠良
 email: ugoood@163.com
 起始于：April 1, 2018
-最后更新日期：April 2, 2018
+最后更新日期：April 13, 2018
 
 **声明：本笔记依据传智播客方立勋老师 Java Web 的授课视频内容记录而成，中间加入了自己的理解。本笔记目的是强化自己学习所用。若有疏漏或不当之处，请在评论区指出。谢谢。**
 **涉及的图片，文档写完后，一次性更新。**
@@ -156,3 +171,153 @@ In individual files (with a ".xml" extension) in the `$CATALINA_BASE/conf/[engin
 4. 验证：浏览器中输入`http://www.sina.com/mail/1.html`即可。
 
 谷歌那个网站也做相同配置，读者自己试一试。
+
+## 8. web资源访问流程
+当我们在浏览器中输入`http://www.sina.com/mail/1.html`后，在浏览器中看到了返回的结果。这个过程是怎样的呢？如下：
+1. ie->windows的host文件： 查询windows,获取主机名对应的ip；
+2. ie->dns服务器：查询dns,获取主机名对应的ip;
+3. ie->sina的web服务器：用查询到的ip连sina服务器并发送http请求；
+4. sina的web服务器从请求信息中可获得客户机 **想访问的主机名**；
+5. sina的web服务器从请求信息中可获得客户机 **想访问的web应用 mail**；
+6. sina的web服务器从请求信息中可获得客户机 **想访问的web资源 1.html**；
+7. sina的web服务器->web资源1.html：sina的web服务器读取相应主机下的、web应用下的web资源；
+8. **sina的web服务器用读取到的web资源的数据，创建出一个http响应**；
+9. sina的web服务器->ie：服务器回送http响应；
+10. ie浏览器收到http响应，解析出资源数据并显示。
+
+## 9. 打包 web 应用 war
+将web应用打成 war 包，方便部署，且服务器对 war 包自动解压。
+以google的news这个web应用为例，将其打成 `news.war`：
+在dos命令行模式下，进入`c:\google`目录，输入`jar -cvf news.war news`生成`news.war`包。当我们把`news.war`发布到tomcat服务器的`webapps`目录下时，服务器会将其自动解压。
+
+## 10. 配Context元素的reloadable属性为true，让tomcat自动加载更新后的web应用
+如在`server.xml`文件中：
+
+```xml
+<Host name="www.google.com" appBase="c:\google">
+  <Context path="" docBase="c:\google\mail" reloadable="true" />
+</Host>
+```
+
+这种方式开发时用，部署时不用。web应用小时用，大时不用。
+注意：
+在`conf\context.xml`中配的`Context`元素会被服务器中所有应用所共享，reloadable一般不应在这里配置。<font color=red>这里是全局性的配置</font>。
+
+## 11. Tomcat 体系结构
+如图：
+![3](/assets/3_ll3eiw7rx.png)
+**<font color=red>`Server -> Service -> 启动多个 Connector 响应客户端请求 -> Engine -> Host -> Context`</font>**
+可查看`server.xml`感受上述过程。上图就是根据`server.xml`画出来的。
+
+## 12. 软件密码学基础和配置 https 连接器
+### 12.1 软件密码学基础
+涉及以下概念：
+公钥，私钥：公钥加密的东西，私钥解；私钥加密的东西，公钥解；公钥加密的东西，公钥解不开；私钥加密的东西，私钥解不开。
+CA：是一个可信任的机构。密码学领域里必须有一个信任点。网站向社会提供的公钥需由CA认证，才会被浏览器(也就是用户)认可。
+数字证书：由CA认证过的公钥；
+**数字签名：数据发送者通过自己的私钥将数据摘要加密，连同用数字证书加密好的数据一同发送给接收者。前提是接收者有发送者的数字证书(既公钥)。数字签名的目的是向接收者证明，这份文件是发送者发出的，如：接收者用发送者的数字证书若能解开数据摘要a，说明该信的确为发送者发出的，解开数据摘要a后，接收者用自己的私钥解开信件获取原始数据，再用md5算法得到数据摘要b，若 a==b，说明文档没被篡改，且确实是由指定的发送者发出。**
+摘要，md5算法：要传输的数据通过md5算法生成数据摘要。
+
+故事：
+客户打开我们做的网站，在客户的浏览器上输入银行的用户名和密码，这得加密啊，咋整？按照上面提到的各种概念，对号入座。
+为了客户的用户名和密码的安全，需加密后通过网络传输到我们的web服务器。这就需在我们的web服务器上配置公钥(数字证书，但做实验的话，这证书不会通过CA认证，既这根本不是个数字证书)，并把这个数字证书通过网络传给客户。客户得到证书后，发送的用户名和密码或其他信息就都是经过证书加密的信息了。我们的web服务器通过那个成对的私钥解密传过来的信息即可。这是单方加密，实际开发中用的是双方加密。
+
+实际操作在下节。
+
+### 12.2 配置 https 连接器
+本节涉及2个任务：
+1. 为我们的web服务器生成一个数字证书；
+2. 为我们的web服务器配置一个加密的连接器(https Connector)；
+
+生成数字证书：java 自带的工具 `keytool -genkey -alias tomcat -keyalg RSA`
+密码“123456”，操作如图：
+![4](/assets/4_xo63h31jf.png)
+最终生成了`.keystore`的密钥库。我的机器来说，该文件存放在`C:\Users\ugooo`目录下。
+
+配加密的web服务器：
+将`.keystore`转移到tomcat服务器的`conf\`目录下。
+打开`server.xml`添加一个加密的`Connector`，代码如下：
+
+```xml
+<Connector port="8443" protocol="HTTP/1.1"
+          maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
+          clientAuth="false" sslProtocol="TLS" keystoreFile="conf/.keystore" keystorePass="123456" />
+```
+
+注意上面代码中的`keystoreFile="conf/.keystore" keystorePass="123456"`表明了密匙库位置和开启密匙库的密码。这些属性信息都可在 Tomcat 主页的 Configuration 中的 Connector 中查询得到。
+重启服务器后，浏览器输入`https://localhost:8443/`，查看效果(涉及到安装证书)。
+
+## 13. Tomcat管理平台
+进入tomcat首页，点击 **Tomcat Manager**。
+设置用户名和密码：
+在`conf\`目录下，打开`tomcat-users.xml`文件，在`<tomcat-users>`元素下添加如下代码：
+
+```xml
+<role rolename="tomcat"/>
+<role rolename="role1"/>
+<role rolename="manager-status"/>
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<role rolename="manager-jmx"/>
+<user username="tomcat" password="123456" roles="tomcat,manager-status,manager-gui,manager-script,manager-jmx"/>   
+```
+
+用户名tomcat，密码123456。这时打开Tomcat Manager，输入用户名密码即可进入管理平台。
+
+## 14. HTTP协议
+HTTP：Hypertext Transfer protocol(超文本传输协议)，它是<font color=red>TCP/IP协议的一个应用层协议(意思是：http协议是工作在tcp/ip协议之上的，即得先用tcp/ip协议连接上后，http协议才可工作)</font>，用于定义WEB浏览器与WEB服务器之间交换数据的过程。
+
+HTTP协议与平台无关。
+
+1.html代码如下：
+
+```html
+aaaaaaaa
+<img src="1.jpg">
+<img src="2.jpg">
+<img src="3.jpg">
+```
+
+当在浏览器中输入1.html的网址，按回车后，服务器共受了浏览器4次请求。
+
+## 15. HTTP请求
+### 15.1 HTTP 的 get 和 post 请求
+![5](/assets/5_lpbuzi3sl.png)
+![6](/assets/6_ct6mf91j4.png)
+
+post请求带数据给服务器，方法就是用表单，如下html代码：
+
+```html
+<form action="/1.html" method="post">
+	<input type="text" name="username">	<input type="submit" value="提交">
+</form>
+```
+
+get请求带数据给服务器，如下html代码(点击超链接时，带数据给服务器)：
+
+```html
+<a href="/2.html?username=aaaaa">点点</a>
+```
+
+### 15.2 HTTP 的 请求头的解释
+![7](/assets/7_g0qxt7bc3.png)
+![8](/assets/8_4vf93ycgd.png)
+其中的 If-Modified-Since 表示客户机缓存了这个页面的时间，通常用于与服务器那个页面的刷新时间的比对，若早于服务器那个页面的刷新时间，说明客户机缓存过的这个页面较老，服务器会重新传最新的页面给客户机。否则就不传了，这样就能减轻web服务器的压力。
+
+## 16. HTTP响应
+故事：我们平时打开网页有时候数据显示在页面，有时会打开一个下载对话框，这都是客户机根据服务器回送的响应中的响应头作出的对应动作。
+<font color=blue>重要直觉：服务器可以通过响应头，控制客户机浏览器的行为！</font>
+![9](/assets/9_m5blv3rij.png)
+![10](/assets/10_8ocp2ro2m.png)
+302：你请求我，我要你去找别人(服务器会回送1个location头，让你去找location头所指示的地址)；
+307和304：服务器不给你所请求的资源了，它让你找你去自己机器上的缓存找你要的资源；
+404：一定是客户机地址写错了，即你请求的资源服务器没有；
+403：客户机没权限访问服务器的那个资源(服务器有那个资源);
+500: 服务器端出问题了。
+
+### 16.1 响应头的解释
+响应头的解释
+![11](/assets/11_7ms66rf31.png)
+
+### 16.2 响应头 - Range头，断点续传
+![12](/assets/12_8owwptsgx.png)

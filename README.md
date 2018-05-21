@@ -1,4 +1,4 @@
-# BigMass
+# Memo
 Usful materials for xiang:
 
 1. xiang installed pandas and sklearn under the tutorial
