@@ -26,11 +26,11 @@ Date: Sep. 23st, 2017
 
 <font color = red>
 自己的总结：
-1. 先完成推导，明确输入输出以及哪些变量是已知的，哪些是待求的．
-2. 写出程序伪代码．
-3. 针对伪代码，逐条完成程序的 vectorize 过程. 这时要小心地，自输入开始地，维护好各种 vector, matrix 的维度, 必要时随需求，毫不犹豫地使用 reshape．
-4. 上述第3条保证了程序中尽量地少使用 for loop.
-5. 遵从 Andrew Ng 老师的上述建议，尤其是对 X, Y, A, w, b, dw, db, dZ 这些 vector, matrix 们的 shape 的把握．</font>
+  1. 先完成推导，明确输入输出以及哪些变量是已知的，哪些是待求的．
+  2. 写出程序伪代码．
+  3. 针对伪代码，逐条完成程序的 vectorize 过程. 这时要小心地，自输入开始地，维护好各种 vector, matrix 的维度, 必要时随需求，毫不犹豫地使用 reshape．
+  4. 上述第3条保证了程序中尽量地少使用 for loop.
+  5. 遵从 Andrew Ng 老师的上述建议，尤其是对 X, Y, A, w, b, dw, db, dZ 这些 vector, matrix 们的 shape 的把握．</font>
 
 
 符合上述规则和自己的总结，编出个机器学习算法就很简单了．
