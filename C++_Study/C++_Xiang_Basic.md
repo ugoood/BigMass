@@ -6,6 +6,7 @@ Oct. 1st, 2017
 箭头（->）：左边必须为指针；
 点号（.）：左边必须为实体。
 e.g.1　class
+
 ```c++
 class A{
 public:
@@ -20,6 +21,7 @@ int main(){
 	p -> play();
 }
 ```
+
 e.g.2 struct
 ```c++
 struct St{
